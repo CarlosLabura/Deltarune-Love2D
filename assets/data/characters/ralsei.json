@@ -1,0 +1,38 @@
+{
+    "name": "ralsei",
+    "idleFrame": "ralsei/spr_ralseid/spr_ralseid_0.png",
+    "animations": [
+        {
+            "name": "down",
+            "folder": "spr_ralseid",
+            "fps": 6,
+            "offsets": [0,0],
+            "loop": true,
+            "reorder": true
+        },
+        {
+            "name": "up",
+            "folder": "spr_ralseiu",
+            "fps": 6,
+            "offsets": [0,0],
+            "loop": true,
+            "reorder": true
+        },
+        {
+            "name": "right",
+            "folder": "spr_ralseir",
+            "fps": 6,
+            "offsets": [0,0],
+            "loop": true,
+            "reorder": true
+        },
+        {
+            "name": "left",
+            "folder": "spr_ralseil",
+            "fps": 6,
+            "offsets": [0,0],
+            "loop": true,
+            "reorder": true
+        }
+    ]
+}
