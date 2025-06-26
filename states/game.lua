@@ -7,18 +7,14 @@ local tesxt
 function create() 
     print('loaded game state')
 
-    love.camera.scale = 3
-    camHUD = CameraManager.newCamera('camHUD', 0, 0 ,1280, 720)
-    camHUD.scale = 3
-
-    ralsei = Character.new('ralsei', 650, 330)
+    ralsei = Character.new('ralsei', 200, 100)
     ralsei:face('down')
     love.camera:add(ralsei)
 
-    kris = Kris.new(510,300)
+    kris = Kris.new(100,100)
     love.camera:add(kris)
 
-    tesxt = Text.new("* Kris, I'm gay fr", 450, 330, nil, camHUD)
+    tesxt = Text.new("* Kris, I'm gay fr", 0, 0, nil, camHUD)
 end
 
 function update(dt)
@@ -27,6 +23,10 @@ function update(dt)
     tesxt:update(dt)
     if Keyboard:justPressed('g') then
         ralsei:face('left')
+        tesxt:type(0.05)
+    end
+    if Keyboard:justPressed('h') then
+        tesxt:reset('hola')
         tesxt:type(0.05)
     end
 end

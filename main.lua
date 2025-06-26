@@ -25,8 +25,17 @@ function love.load()
         'pause','escape','help','printscreen','sysreq','menu','application','power','undo', --Miscellaneous --TF????? 
     }
     Keyboard = Keyboard.createInstance(keys)
-    love.camera = Camera.new(0,0,1280,720)
+
+    screenWidth, screenHeight, screenFlags = love.window.getMode()
+    screenMultiplier = 3
+
+    love.camera = Camera.new(0-screenWidth/screenMultiplier, 0-screenHeight/screenMultiplier, screenWidth, screenHeight)
+    love.camera.scale = screenMultiplier
+
     StateManager.switch( require("states.game") )
+
+    camHUD = CameraManager.newCamera('camHUD', 0-screenWidth/screenMultiplier, 0-screenHeight/screenMultiplier, screenWidth, screenHeight)
+    camHUD.scale = screenMultiplier
 end
 
 --Tweens--

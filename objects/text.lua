@@ -13,6 +13,11 @@ function Text.new(text, x, y, font, camera)
     local txt = setmetatable({}, Text)
 
     txt.text = text
+
+    txt.camera = camera
+    txt.json = fontJson
+    txt.position = {x or 0,y or 0}
+
     txt.typeActivated = false
     txt.gap = 0
     txt.timer = 0
@@ -37,6 +42,39 @@ function Text.new(text, x, y, font, camera)
     end
     return txt
 end 
+
+function Text:reset(text)
+    for i = 1, #self.letters do
+        self.camera:remove(self.letters[i])
+    end
+    self.text = text
+    self.typeActivated = false
+    self.gap = 0
+    self.timer = 0
+    self.letters = {}
+    self.letterIndex = 1
+
+    if #text < 1 then
+        return
+    end
+
+    for i = 1, #text do
+        letter = Sprite.new('fonts/'..self.json.image, self.position[1] + 8 * (i-1), self.position[2])
+
+        local curLetter = Utils.getLetterByPosition(text, i)
+        local letterQuad = {
+            self.json.characters[curLetter][1],
+            self.json.characters[curLetter][2],
+            self.json.characters[curLetter][3],
+            self.json.characters[curLetter][4]
+        }
+        letter:addAnimationByQuad(curLetter, letterQuad)
+        letter.visible = false
+        self.camera:add(letter)
+
+        table.insert(self.letters, letter)
+    end
+end
 
 function Text:type(gapTime)
     if self.letterIndex > #self.text then
