@@ -6,6 +6,8 @@ function Kris.new(x, y)
 
     setmetatable(krs, Kris)
 
+    krs.inCutscene = false
+
     krs.maxVelocity = 120
     krs.minVelocity = 80
     krs.velocity = 0
@@ -19,6 +21,9 @@ function Kris.new(x, y)
 end
 
 function Kris:update(dt)
+    if krs.inCutscene then
+        return
+    end
     if Keyboard:isDown('down') then
         self.y = self.y + self.velocity * dt
     end

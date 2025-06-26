@@ -1,3 +1,4 @@
+--LIBS--
 StateManager = require "libs.state_manager"
 Keyboard = require 'libs.keyboard'
 Sprite = require 'libs.sprite'
@@ -6,8 +7,16 @@ Utils = require 'libs.utils'
 Paths = require 'libs.paths'
 Camera = require 'libs.camera'
 CameraManager = require 'libs.camera_manager'
+
+--PARSERS--
 Json = require 'libs.parsers.json'
 Xml = require 'libs.parsers.xml'
+
+--OBJECTS--
+Kris = require 'objects.kris'
+Character = require 'objects.character'
+Text = require 'objects.text'
+TextBox = require 'objects.textbox'
 
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
@@ -28,14 +37,14 @@ function love.load()
 
     screenWidth, screenHeight, screenFlags = love.window.getMode()
     screenMultiplier = 3
+    screenWidth = screenWidth / screenMultiplier
+    screenHeight = screenHeight / screenMultiplier
 
-    love.camera = Camera.new(0-screenWidth/screenMultiplier, 0-screenHeight/screenMultiplier, screenWidth, screenHeight)
+    love.camera = Camera.new(0-screenWidth, 0-screenHeight, screenWidth*screenMultiplier, screenHeight*3)
     love.camera.scale = screenMultiplier
 
     StateManager.switch( require("states.game") )
-
-    camHUD = CameraManager.newCamera('camHUD', 0-screenWidth/screenMultiplier, 0-screenHeight/screenMultiplier, screenWidth, screenHeight)
-    camHUD.scale = screenMultiplier
+    
 end
 
 --Tweens--

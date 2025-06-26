@@ -27,6 +27,10 @@ function Character.new(name, x, y)
             )
         end
     end
+
+    chara.moveTime = 0
+    chara.stepToTake = 0
+    chara.direction = 'down'
     --[[
     --Get Animations from folders
     --Animated are names like the folders too
@@ -44,5 +48,16 @@ function Character:face(direction)
     self.animationProperties.paused = true
     self.animationProperties.curFrame = 4
 end
+function Character:move(direction, steps, time)
+    self.direction = direction or 'down'
+    self.stepToTake = steps or 0
+    self.moveTime = time or 1
+end
+function Character:update(dt)
+
+
+end
+
+
 
 return Character

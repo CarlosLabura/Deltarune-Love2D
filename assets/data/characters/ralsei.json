@@ -34,5 +34,12 @@
             "loop": true,
             "reorder": true
         }
-    ]
+    ],
+
+    "font": "default",
+    "facesPath": "ralseiFaces",
+    "faces": {
+        "normal": "spr_face_r_dark_0", 
+        "blud": "spr_face_r_dark_9"
+    }
 }

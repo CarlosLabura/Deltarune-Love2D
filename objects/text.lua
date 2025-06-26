@@ -24,40 +24,18 @@ function Text.new(text, x, y, font, camera)
     txt.letters = {}
     txt.letterIndex = 1
 
-    for i = 1, #text do
-        letter = Sprite.new('fonts/'..fontJson.image, x + 8 * (i-1), y)
-
-        local curLetter = Utils.getLetterByPosition(text, i)
-        local letterQuad = {
-            fontJson.characters[curLetter][1],
-            fontJson.characters[curLetter][2],
-            fontJson.characters[curLetter][3],
-            fontJson.characters[curLetter][4]
-        }
-        letter:addAnimationByQuad(curLetter, letterQuad)
-        letter.visible = false
-        camera:add(letter)
-
-        table.insert(txt.letters, letter)
-    end
+    txt:generate(text)
     return txt
 end 
 
-function Text:reset(text)
-    for i = 1, #self.letters do
-        self.camera:remove(self.letters[i])
-    end
-    self.text = text
-    self.typeActivated = false
-    self.gap = 0
-    self.timer = 0
-    self.letters = {}
-    self.letterIndex = 1
+function Text:setFont(font)
+    local font = font or 'default'
+    local fontJson = Json.decode(love.filesystem.read(Paths.json('fonts/'..font))) 
 
-    if #text < 1 then
-        return
-    end
+    self.json = fontJson
+end
 
+function Text:generate(text)
     for i = 1, #text do
         letter = Sprite.new('fonts/'..self.json.image, self.position[1] + 8 * (i-1), self.position[2])
 
@@ -70,16 +48,38 @@ function Text:reset(text)
         }
         letter:addAnimationByQuad(curLetter, letterQuad)
         letter.visible = false
-        self.camera:add(letter)
-
         table.insert(self.letters, letter)
+        self.camera:add(letter)
     end
+end
+
+function Text:reset(text)
+    for i = 1, #self.letters do
+        self.letters[i].visible = false
+        self.camera:remove(self.letters[i])
+    end
+    self.text = text
+    self.typeActivated = false
+    self.gap = 0
+    self.timer = 0
+    self.letterIndex = 1
+
+    self.letters = {}
+
+    if text == nil or #text < 1 then
+        return
+    end
+
+    self:generate(text)
 end
 
 function Text:type(gapTime)
     if self.letterIndex > #self.text then
         return
     end
+
+    local gapTime = gapTime or 0.05
+
     self.typeActivated = true
     self.gap = gapTime
     self.timer = 0
@@ -96,7 +96,6 @@ function Text:update(dt)
     end
 
     self.timer = self.timer + dt
-    print(dt)
     if self.timer >= self.gap then
         self.letters[self.letterIndex].visible = true
         self.timer = 0

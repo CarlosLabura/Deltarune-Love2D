@@ -199,14 +199,14 @@ function gamera:getVisibleCorners()
 end
 
 function gamera:drawObjects()
-  if #self.objects > 0 then
-    for i = 1, #self.objects do
-      self.objects[i]:draw()
-    end
-  end
   if #self.drawables > 0 then
     for i = 1, #self.drawables do
       self.drawables[i][2]()
+    end
+  end
+  if #self.objects > 0 then
+    for i = 1, #self.objects do
+      self.objects[i]:draw()
     end
   end
 end

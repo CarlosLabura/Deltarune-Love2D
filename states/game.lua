@@ -1,11 +1,13 @@
 
-Kris = require 'objects.kris'
-Character = require 'objects.character'
-Text = require 'objects.text'
+
 
 local tesxt
 function create() 
     print('loaded game state')
+
+    
+    camHUD = CameraManager.newCamera('camHUD', 0-screenWidth, 0-screenHeight, screenWidth*screenMultiplier, screenHeight*screenMultiplier)
+    camHUD.scale = screenMultiplier
 
     ralsei = Character.new('ralsei', 200, 100)
     ralsei:face('down')
@@ -13,21 +15,35 @@ function create()
 
     kris = Kris.new(100,100)
     love.camera:add(kris)
-
-    tesxt = Text.new("* Kris, I'm gay fr", 0, 0, nil, camHUD)
+    
+    
 end
 
+local state = 0
 function update(dt)
-    kris:update(dt)
-
-    tesxt:update(dt)
-    if Keyboard:justPressed('g') then
-        ralsei:face('left')
-        tesxt:type(0.05)
+    if Keyboard:justPressed('z') then
+        if state == 0 then
+            state = 1
+            textbox = TextBox.new("* Kris", nil, 'ralsei', 'normal')
+            kris.inCutscene = true
+            ralsei:face('left')
+        elseif state == 1 then
+            state = 2
+            textbox:set("* I'm gay fr", nil, 'ralsei', 'blud')
+        elseif state == 2 then
+            state = 3
+            textbox:set("* (You felt gay for a moment)")
+        elseif state == 3 then
+            kris.inCutscene = false
+            textbox:close()
+            ralsei:playAnimation('right', true)
+            love.tween('ralseigo', ralsei, {x = 800}, 10)
+        end
     end
-    if Keyboard:justPressed('h') then
-        tesxt:reset('hola')
-        tesxt:type(0.05)
+
+    kris:update(dt)
+    if textbox ~= nil then
+        textbox:update(dt)
     end
 end
 

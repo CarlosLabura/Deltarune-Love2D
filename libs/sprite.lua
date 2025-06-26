@@ -39,13 +39,13 @@ function Sprite.new(image, x, y)
         finished = false
     }
 
-    spr:image(image)
+    spr:setImage(image)
     spr:setPosition(x,y)
     
     return spr
 end
 
-function Sprite:image(image)
+function Sprite:setImage(image)
     if not love.filesystem.getInfo(Paths.image(image)) then
         self.image = love.graphics.newImage('noimage.png')
         return
@@ -55,7 +55,7 @@ function Sprite:image(image)
     self:setOrigin(self.hitbox[1]/2, self.hitbox[2]/2)
 end
 
-function Sprite:sparrow(xml_file)
+function Sprite:setSparrow(xml_file)
     if not love.filesystem.getInfo(Paths.xml(xml_file)) then
         return
     end
